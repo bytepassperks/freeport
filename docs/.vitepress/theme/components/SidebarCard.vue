@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Field from './CardField.vue'
-import ColorPicker from './ColorPicker.vue'
 import InputField from './InputField.vue'
 import ThemeSelector from './ThemeSelector.vue'
 import ToggleIndexes from './ToggleIndexes.vue'
@@ -32,10 +31,6 @@ import ToggleStarred from './ToggleStarred.vue'
         <ToggleIndexes />
       </template>
     </InputField>
-
-    <div class="mt-4">
-      <ColorPicker />
-    </div>
 
     <div class="mt-6 pt-6 border-t border-$vp-c-divider">
       <ThemeSelector />

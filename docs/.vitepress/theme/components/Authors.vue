@@ -17,7 +17,7 @@ const data = [
   },
   {
     name: 'Kai',
-    github: 'https://github.com/Kai-FMHY'
+    github: 'https://github.com/bytepassperks'
   },
   {
     name: 'taskylizard',

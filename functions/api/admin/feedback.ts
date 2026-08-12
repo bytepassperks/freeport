@@ -3,10 +3,9 @@ import { constantTimeEqual, escapeCsv, json } from '../../_lib'
 
 function authorized(request: Request, expected: string) {
   const header = request.headers.get('authorization') ?? ''
-  const prefix = 'Bearer '
   return (
-    header.startsWith(prefix) &&
-    constantTimeEqual(header.slice(prefix.length), expected)
+    header.startsWith('Bearer ') &&
+    constantTimeEqual(header.slice('Bearer '.length), expected)
   )
 }
 
@@ -16,24 +15,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   }
 
   const rows = await context.env.DB.prepare(
-    `SELECT id, email, name, created_at, last_login_at
-     FROM users
-     ORDER BY id ASC`
-  ).all<{
-    id: number
-    email: string
-    name: string | null
-    created_at: string
-    last_login_at: string | null
-  }>()
-
+    `SELECT id, message, type, page, heading, contact, country, created_at
+     FROM feedback ORDER BY id ASC`
+  ).all()
   const format =
     new URL(context.request.url).searchParams.get('format')?.toLowerCase() ??
     'json'
-  if (format === 'json') {
-    return json({ users: rows.results })
-  }
-
+  if (format === 'json') return json({ feedback: rows.results })
   if (format !== 'csv') {
     return json(
       { ok: false, error: 'format must be csv or json' },
@@ -41,18 +29,26 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     )
   }
 
-  const header = 'id,email,name,created_at,last_login_at'
-  const lines = rows.results.map((row) =>
-    [row.id, row.email, row.name, row.created_at, row.last_login_at]
+  const header = 'id,message,type,page,heading,contact,country,created_at'
+  const lines = rows.results.map((row: Record<string, unknown>) =>
+    [
+      row.id,
+      row.message,
+      row.type,
+      row.page,
+      row.heading,
+      row.contact,
+      row.country,
+      row.created_at
+    ]
       .map((value) => escapeCsv(String(value ?? '')))
       .join(',')
   )
-
-  return new Response([header, ...lines].join('\r\n') + '\r\n', {
+  return new Response(`${[header, ...lines].join('\r\n')}\r\n`, {
     headers: {
       'cache-control': 'no-store',
       'content-type': 'text/csv; charset=utf-8',
-      'content-disposition': 'attachment; filename="freeport-users.csv"'
+      'content-disposition': 'attachment; filename="freeport-feedback.csv"'
     }
   })
 }

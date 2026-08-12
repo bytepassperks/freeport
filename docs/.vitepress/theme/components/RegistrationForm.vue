@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { computed, ref } from 'vue'
+import { brand } from '../../../../brand.config'
 
 const route = useRoute()
 const email = ref('')
@@ -70,7 +71,7 @@ async function submit() {
           aria-describedby="registration-email-help"
         />
         <p id="registration-email-help" class="text-text-2 mt-1 text-sm">
-          We will only use this to send occasional FMHY updates.
+          We will only use this to send occasional {{ brand.name }} updates.
         </p>
       </div>
 

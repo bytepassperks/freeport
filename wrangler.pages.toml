@@ -1,4 +1,4 @@
-name = "fmhy-mirror"
+name = "freeport"
 pages_build_output_dir = "docs/.vitepress/dist"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
@@ -7,3 +7,4 @@ compatibility_flags = ["nodejs_compat"]
 binding = "DB"
 database_name = "fmhy-leads"
 database_id = "dd12a941-c471-41e2-a938-97e56dd11349"
+migrations_dir = "migrations"

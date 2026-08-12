@@ -16,6 +16,7 @@
 
 import type { Plugin } from 'vitepress'
 import { basename } from 'pathe'
+import { brandingStats, rewriteBranding } from './transformer/branding'
 import { excluded, getHeader } from './transformer/constants'
 import { replaceUnderscore, transformer } from './transformer/core'
 
@@ -23,8 +24,70 @@ export function transformsPlugin(): Plugin {
   return {
     name: 'custom:transform-content',
     enforce: 'pre',
+    buildStart() {
+      brandingStats.length = 0
+    },
+    buildEnd() {
+      const byFile = new Map<string, typeof brandingStats>()
+      brandingStats.forEach((stat) => {
+        const entries = byFile.get(stat.file) ?? []
+        entries.push(stat)
+        byFile.set(stat.file, entries)
+      })
+      let linksIn = 0
+      let linksOut = 0
+      let listItemsIn = 0
+      let listItemsOut = 0
+      byFile.forEach((entries, file) => {
+        const summary = entries.reduce(
+          (result, entry) => ({
+            linksIn: result.linksIn + entry.linksIn,
+            linksOut: result.linksOut + entry.linksOut,
+            listItemsIn: result.listItemsIn + entry.listItemsIn,
+            listItemsOut: result.listItemsOut + entry.listItemsOut,
+            droppedLines: [...result.droppedLines, ...entry.droppedLines]
+          }),
+          {
+            linksIn: 0,
+            linksOut: 0,
+            listItemsIn: 0,
+            listItemsOut: 0,
+            droppedLines: [] as string[]
+          }
+        )
+        const droppedLinks = summary.linksIn - summary.linksOut
+        const droppedItems = summary.listItemsIn - summary.listItemsOut
+        linksIn += summary.linksIn
+        linksOut += summary.linksOut
+        listItemsIn += summary.listItemsIn
+        listItemsOut += summary.listItemsOut
+        if (droppedLinks || droppedItems) {
+          this.warn(
+            `[branding] ${file}: links ${summary.linksIn} -> ${summary.linksOut}, list items ${summary.listItemsIn} -> ${summary.listItemsOut}; dropped ${droppedLinks} links and ${droppedItems} list items`
+          )
+          summary.droppedLines.slice(0, 3).forEach((line) => {
+            this.warn(`[branding] ${file} dropped: ${line}`)
+          })
+        }
+      })
+      const totalIn = linksIn + listItemsIn
+      const totalDropped = linksIn - linksOut + (listItemsIn - listItemsOut)
+      const listDropThreshold = Math.max(300, Math.ceil(listItemsIn * 0.005))
+      this.warn(
+        `[branding] totals: links ${linksIn} -> ${linksOut}, list items ${listItemsIn} -> ${listItemsOut}, total dropped ${totalDropped}, list-item threshold ${listDropThreshold}`
+      )
+      if (listItemsIn - listItemsOut > listDropThreshold) {
+        throw new Error(
+          `[branding] transform removed ${listItemsIn - listItemsOut} list items of ${listItemsIn}; threshold is ${listDropThreshold}`
+        )
+      }
+    },
     transform(code, id) {
       const _id = basename(id)
+
+      if (id.endsWith('feedback.md')) {
+        return rewriteBranding(transform(code), _id)
+      }
 
       if (
         id.endsWith('.md') &&
@@ -34,7 +97,7 @@ export function transformsPlugin(): Plugin {
         !id.includes('other')
       ) {
         const header = getHeader(_id)
-        const contents = transform(code)
+        const contents = rewriteBranding(transform(code), _id)
 
         if (_id === 'beginners-guide.md') {
           const _contents = transformGuide(contents)
@@ -294,13 +357,13 @@ const transformLinks = (text: string): string =>
         replace:
           '<a target="_blank" href="$1"><span v-tooltip="\'X\'" alt="X" class="i-carbon:logo-x" /></a>'
       },
-      { 
+      {
         name: 'Mastodon',
         find: /\[Mastodon\]\(([^\)]*?)\)/gm,
         replace:
           '<a target="_blank" href="$1"><span v-tooltip="\'Mastodon\'" alt="Mastodon" class="i-mdi:mastodon" /></a>'
       },
-      { 
+      {
         name: 'BlueSky',
         find: /\[BlueSky\]\(([^\)]*?)\)/gm,
         replace:

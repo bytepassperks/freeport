@@ -20,7 +20,7 @@ onMounted(loadUser)
 </script>
 
 <template>
-  <div class="flex items-center gap-2 text-sm">
+  <div class="auth-status flex items-center gap-2 text-sm">
     <template v-if="user">
       <span class="hidden max-w-36 truncate sm:inline">
         {{ user.name || user.email }}
@@ -30,7 +30,7 @@ onMounted(loadUser)
       </button>
     </template>
     <template v-else>
-      <a class="VPButton medium alt" href="/login">Log in</a>
+      <a class="auth-status-link" href="/login">Log in</a>
     </template>
   </div>
 </template>

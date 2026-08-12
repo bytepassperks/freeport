@@ -25,7 +25,7 @@ const STORAGE_KEY_VARS = 'vitepress-theme-vars'
 
 export class ThemeHandler {
   private state = ref<ThemeState>({
-    currentTheme: 'swarm',
+    currentTheme: 'freeport',
     currentMode: 'light' as DisplayMode,
     theme: null
   })
@@ -49,7 +49,7 @@ export class ThemeHandler {
     if (typeof window === 'undefined') return
 
     // Load saved preferences
-    const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || 'color-swarm'
+    const savedTheme = 'freeport'
     const savedMode = localStorage.getItem(
       STORAGE_KEY_MODE
     ) as DisplayMode | null
@@ -203,8 +203,7 @@ export class ThemeHandler {
       bgElvColor = 'rgba(0, 0, 0, 0.9)'
     }
 
-    // Apply brand colors only if theme specifies them
-    // Otherwise, remove inline styles to let ColorPicker CSS take effect
+    // Apply the active Freeport brand colors.
     if (
       colors.brand &&
       (colors.brand[1] ||
@@ -221,7 +220,6 @@ export class ThemeHandler {
       if (colors.brand.soft)
         root.style.setProperty('--vp-c-brand-soft', colors.brand.soft)
     } else {
-      // Remove inline brand color styles so ColorPicker CSS can apply
       root.style.removeProperty('--vp-c-brand-1')
       root.style.removeProperty('--vp-c-brand-2')
       root.style.removeProperty('--vp-c-brand-3')
@@ -395,17 +393,14 @@ export class ThemeHandler {
 
   public setTheme(themeName: string) {
     if (!themeRegistry[themeName]) {
-      console.warn(`Theme "${themeName}" not found. Using christmas theme.`)
-      themeName = 'christmas'
+      console.warn(`Theme "${themeName}" not found. Using Freeport theme.`)
+      themeName = 'freeport'
     }
 
     this.state.value.currentTheme = themeName
     this.state.value.theme = themeRegistry[themeName]
     localStorage.setItem(STORAGE_KEY_THEME, themeName)
     this.applyTheme()
-
-    // Force re-apply ColorPicker colors if theme doesn't specify brand colors
-    this.ensureColorPickerColors()
   }
 
   public setMode(mode: DisplayMode) {
@@ -447,21 +442,6 @@ export class ThemeHandler {
 
   public getAmoledEnabledRef() {
     return this.amoledEnabled
-  }
-
-  private ensureColorPickerColors() {
-    const theme = this.state.value.theme
-    if (!theme) return
-    // If theme doesn't specify brand colors, force ColorPicker to reapply its selection
-    const currentMode = this.state.value.currentMode
-    const modeColors = theme.modes[currentMode]
-
-    if (!modeColors.brand || !modeColors.brand[1]) {
-      // Trigger a custom event that ColorPicker can listen to
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('theme-changed-apply-colors'))
-      }
-    }
   }
 
   public getState() {

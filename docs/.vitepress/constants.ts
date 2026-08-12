@@ -19,6 +19,7 @@ import path from 'node:path'
 import MiniSearch from 'minisearch'
 import { excluded, normalizeSearchUrl } from './shared'
 import { transform, transformGuide } from './transformer'
+import { rewriteBranding } from './transformer/branding'
 
 // @unocss-include
 
@@ -277,7 +278,7 @@ export const search: DefaultTheme.Config['search'] = {
         if (contents.includes('Beginners Guide'))
           contents = transformGuide(contents)
 
-        contents = transform(contents)
+        contents = rewriteBranding(transform(contents), relativePath, false)
       }
       let html = md.render(contents, env)
       // Strip <Tooltip ...>...</Tooltip> contents to avoid indexing hidden notes in search

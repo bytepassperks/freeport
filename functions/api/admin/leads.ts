@@ -53,7 +53,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     headers: {
       'cache-control': 'no-store',
       'content-type': 'text/csv; charset=utf-8',
-      'content-disposition': 'attachment; filename="fmhy-leads.csv"'
+      'content-disposition': 'attachment; filename="freeport-leads.csv"'
     }
   })
 }

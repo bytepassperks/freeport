@@ -19,7 +19,7 @@ const platforms: PlatformType[] = [
   {
     name: 'SearXNG',
     key: 'a',
-    url: 'https://searx.fmhy.net/search?q=',
+    url: 'https://searx.be/search?q=',
     icon: 'i-simple-icons:searxng'
   },
   {

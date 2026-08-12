@@ -19,6 +19,7 @@ import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineSatoriConfig } from 'x-satori/vue'
+import { brand } from '../../../brand.config'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const __fonts = resolve(__dirname, '../fonts')
@@ -55,11 +56,11 @@ export default defineSatoriConfig({
   height: 900,
   fonts,
   props: {
-    title: 'Title',
+    title: brand.name,
     description:
       'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
     dir: '/j',
     // I almost killed myself for this shit
-    image: 'https://i.fmhy.net/og-base.jpg'
+    image: brand.assets.og
   }
 })

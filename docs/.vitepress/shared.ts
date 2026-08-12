@@ -15,13 +15,14 @@
  */
 
 import type { DefaultTheme } from 'vitepress'
+import { brand } from '../../brand.config'
 
 // @unocss-include
 
 export const meta = {
-  name: 'freemediaheckyeah',
-  description: 'The largest collection of free stuff on the internet!',
-  hostname: 'https://fmhy.net',
+  name: brand.name,
+  description: brand.description,
+  hostname: brand.hostname,
   keywords: ['stream', 'movies', 'gaming', 'reading', 'anime'],
   build: {
     api: true,
@@ -36,7 +37,9 @@ export const excluded = [
   'feedback.md',
   'index.md',
   'sandbox.md',
-  'startpage.md'
+  'startpage.md',
+  'posts/**',
+  'other/**'
 ]
 
 // Strip the URL scheme and a leading "www." so "https://www.pi-hole.net/x" and
@@ -82,15 +85,15 @@ const safeEnv = (key: string) =>
 const isFalsy = (val?: string) =>
   ['false', '0', 'no', 'off'].includes((val ?? '').trim().toLowerCase())
 
-if (isFalsy(safeEnv('FMHY_BUILD_NSFW'))) {
+if (isFalsy(safeEnv('FREEPORT_BUILD_NSFW'))) {
   meta.build.nsfw = false
 }
-if (isFalsy(safeEnv('FMHY_BUILD_API'))) {
+if (isFalsy(safeEnv('FREEPORT_BUILD_API'))) {
   meta.build.api = false
 }
 
 const formatCommitRef = (commitRef: string) =>
-  `<a href="https://github.com/fmhy/edit/commit/${commitRef}">${commitRef.slice(0, 8)}</a>`
+  `<a href="${brand.repoUrl}/commit/${commitRef}">${commitRef.slice(0, 8)}</a>`
 
 const cfStart = safeEnv('CF_PAGES_COMMIT_SHA')
 const commitStart = safeEnv('COMMIT_REF')
@@ -102,52 +105,26 @@ export const commitRef =
       ? formatCommitRef(commitStart)
       : 'dev'
 
-export const feedback = `<a href="/feedback" class="feedback-footer">Made with ❤</a>`
+export const feedback = `<a href="${brand.contact.feedbackPath}" class="feedback-footer">Made with ❤</a>`
 
-export const socialLinks: DefaultTheme.SocialLink[] = [
-  { icon: 'github', link: 'https://github.com/fmhy/edit' },
-  { icon: 'discord', link: 'https://github.com/fmhy/FMHY/wiki/FMHY-Discord' },
-  {
-    icon: 'reddit',
-    link: 'https://reddit.com/r/FREEMEDIAHECKYEAH'
-  }
-]
+export const socialLinks: DefaultTheme.SocialLink[] = brand.socialLinks
 
 export const nav: DefaultTheme.NavItem[] = [
-  { text: '📑 Changelog', link: '/posts/changelog-sites' },
   { text: '📖 Glossary', link: 'https://rentry.org/The-Piracy-Glossary' },
   {
-    text: '💾 Backups',
-    link: '/other/backups'
-  },
-  {
-    text: '🌱 Ecosystem',
+    text: '🧭 Explore',
     items: [
-      { text: '🌐 Search', link: '/posts/search' },
-      { text: '❓ FAQs', link: '/other/FAQ' },
+      { text: '🌐 Search', link: '/search' },
       {
         text: '🔖 Bookmarks',
-        link: 'https://github.com/mian196/fmhy-bookmarks-extension'
+        link: brand.repoUrl
       },
-      { text: '✅ SafeGuard', link: 'https://github.com/fmhy/FMHY-SafeGuard' },
-      { text: '🚀 Startpage', link: '/startpage' },
-      { text: '🔎 SearXNG', link: 'https://searx.fmhy.net/' },
-      {
-        text: '💡 Site Hunting',
-        link: 'https://www.reddit.com/r/FREEMEDIAHECKYEAH/wiki/find-new-sites/'
-      },
-      {
-        text: '😇 SFW FMHY',
-        link: 'https://fmhy.xyz/'
-      },
-      {
-        text: '🏠 Selfhosting',
-        link: '/other/selfhosting'
-      },
-      { text: '🏞 Wallpapers', link: '/other/wallpapers' },
       { text: '💙 Feedback', link: '/feedback' },
-      { text: '📬 Newsletter', link: '/newsletter' },
-      { text: '🔐 Log In', link: '/login' },
+      {
+        text: '<span class="i-twemoji:incoming-envelope"></span> Newsletter',
+        link: '/newsletter'
+      },
+      { text: '<span class="i-twemoji:locked"></span> Log In', link: '/login' },
       { text: '📝 Create Account', link: '/register' }
     ]
   }
@@ -159,15 +136,11 @@ export const sidebar: DefaultTheme.Sidebar | DefaultTheme.NavItemWithLink[] = [
     link: '/beginners-guide'
   },
   {
-    text: '<span class="i-twemoji:newspaper"></span> Posts',
-    link: '/posts'
+    text: '<span class="i-twemoji:newspaper"></span> Getting Started',
+    link: '/beginners-guide'
   },
   {
-    text: '<span class="i-twemoji:light-bulb"></span> Contribute',
-    link: '/other/contributing'
-  },
-  {
-    text: 'Wiki',
+    text: 'Browse',
     collapsed: false,
     items: [
       {
@@ -241,7 +214,7 @@ export const sidebar: DefaultTheme.Sidebar | DefaultTheme.NavItemWithLink[] = [
         link: '/internet-tools'
       },
       {
-        text: '<span class="i-twemoji:left-speech-bubble"></span> Social Media Tools',
+        text: '<span class="i-twemoji:busts-in-silhouette"></span> Social Media Tools',
         link: '/social-media-tools'
       },
       {
@@ -249,23 +222,23 @@ export const sidebar: DefaultTheme.Sidebar | DefaultTheme.NavItemWithLink[] = [
         link: '/text-tools'
       },
       {
-        text: '<span class="i-twemoji:alien-monster"></span> Gaming Tools',
+        text: '<span class="i-twemoji:video-game"></span> Gaming Tools',
         link: '/gaming-tools'
       },
       {
-        text: '<span class="i-twemoji:camera"></span> Image Tools',
+        text: '<span class="i-twemoji:framed-picture"></span> Image Tools',
         link: '/image-tools'
       },
       {
-        text: '<span class="i-twemoji:videocassette"></span> Video Tools',
+        text: '<span class="i-twemoji:film-frames"></span> Video Tools',
         link: '/video-tools'
       },
       {
-        text: '<span class="i-twemoji:speaker-high-volume"></span> Audio Tools',
+        text: '<span class="i-twemoji:musical-notes"></span> Audio Tools',
         link: '/audio#audio-tools'
       },
       {
-        text: '<span class="i-twemoji:red-apple"></span> Educational Tools',
+        text: '<span class="i-twemoji:mortar-board"></span> Educational Tools',
         link: '/educational#educational-tools'
       },
       {
@@ -289,7 +262,7 @@ export const sidebar: DefaultTheme.Sidebar | DefaultTheme.NavItemWithLink[] = [
         link: '/unsafe'
       },
       {
-        text: '<span class="i-twemoji:wastebasket"></span> Recently Removed',
+        text: '<span class="i-twemoji:back-arrow"></span> Recently Removed',
         link: '/recently-removed'
       },
       {

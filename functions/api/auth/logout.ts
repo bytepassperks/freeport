@@ -13,7 +13,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     {
       headers: {
         'set-cookie':
-          'fmhy_session=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax'
+          'freeport_session=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax'
       }
     }
   )

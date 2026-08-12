@@ -1,7 +1,7 @@
 /**
  * Client-side mirror of the Worker's RATE_LIMITER binding
  */
-const STORAGE_KEY = 'fmhy-feedback-submissions'
+const STORAGE_KEY = 'freeport-feedback-submissions'
 const LIMIT = 5
 const PERIOD_MS = 60 * 1000
 

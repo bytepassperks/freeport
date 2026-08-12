@@ -33,6 +33,7 @@ import consola from 'consola'
 import sharp from 'sharp'
 import { createContentLoader } from 'vitepress'
 import { satoriVue } from 'x-satori/vue'
+import { brand } from '../../../brand.config'
 import { headers } from '../transformer/constants'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -186,7 +187,12 @@ async function generateImage({
     width: OG_WIDTH,
     height: OG_HEIGHT,
     fonts,
-    props: { title, description, image: ogBaseDataUrl }
+    props: {
+      title,
+      description,
+      image: ogBaseDataUrl,
+      brandName: brand.name
+    }
   }
 
   const svg = await satoriVue(options, template)

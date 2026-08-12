@@ -1,3 +1,4 @@
+import { rm, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import consola from 'consola'
 import UnoCSS from 'unocss/vite'
@@ -6,6 +7,7 @@ import OptimizeExclude from 'vite-plugin-optimize-exclude'
 import { VitePWA } from 'vite-plugin-pwa'
 import Terminal from 'vite-plugin-terminal'
 import { defineConfig } from 'vitepress'
+import { brand } from '../../brand.config'
 import {
   commitRef,
   feedback,
@@ -26,61 +28,60 @@ import { replaceNoteLink } from './utils/markdown'
 
 const baseUrl = process.env.GITHUB_ACTIONS ? '/edit' : '/'
 export default defineConfig({
-  title: 'FMHY',
+  title: brand.name,
   description: meta.description,
-  titleTemplate: ':title • freemediaheckyeah',
+  titleTemplate: `:title • ${brand.name}`,
   lang: 'en-US',
   lastUpdated: false,
   cleanUrls: true,
   appearance: true,
   base: baseUrl,
-  srcExclude: ['README.md', 'public/single-page.md', 'single-page'],
+  srcExclude: [
+    'README.md',
+    'public/single-page.md',
+    'single-page',
+    'single-page.md',
+    'posts.md',
+    'posts/**',
+    'other/**'
+  ],
   ignoreDeadLinks: true,
   sitemap: {
     hostname: meta.hostname
   },
   head: [
-    ['meta', { name: 'theme-color', content: '#7bc5e4' }],
+    ['meta', { name: 'theme-color', content: brand.themeColor }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:locale', content: 'en' }],
-    ['link', { rel: 'icon', href: '/fmhy.ico' }],
+    ['link', { rel: 'icon', href: brand.assets.favicon }],
     [
       'link',
       {
         rel: 'alternate',
         type: 'application/rss+xml',
-        title: 'FMHY RSS Feed',
+        title: `${brand.name} RSS Feed`,
         href: '/feed.rss'
       }
     ],
     // PWA
     ['link', { rel: 'manifest', href: '/manifest.json' }],
-    ['link', { rel: 'alternate icon', href: '/pwa_icon.png', type: 'image/png' }],
+    [
+      'link',
+      { rel: 'alternate icon', href: brand.assets.pwaIcon, type: 'image/png' }
+    ],
     ['meta', { name: 'keywords', content: meta.keywords.join(' ') }],
     [
       'link',
-      { rel: 'apple-touch-icon', href: '/pwa_icon.png', sizes: '192x192' }
+      {
+        rel: 'apple-touch-icon',
+        href: brand.assets.appleTouchIcon,
+        sizes: '180x180'
+      }
     ],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     [
       'meta',
       { name: 'apple-mobile-web-app-status-bar-style', content: 'default' }
-    ],
-    // Bing site verification
-    [
-      'meta',
-      {
-        name: 'msvalidate.01',
-        content: 'F3028112EF6F929B562F4B18E58E3691'
-      }
-    ],
-    // Google site verification
-    [
-      'meta',
-      {
-        name: 'google-site-verification',
-        content: 'XCq-ZTw6VJPQ7gVNEOl8u0JRqfadK7WcsJ0H598Wv9E'
-      }
     ],
     // Redirect to main site if embedded in iframe
     [
@@ -105,8 +106,7 @@ export default defineConfig({
             var d = document.documentElement;
             var mode = localStorage.getItem('vitepress-display-mode');
             var amoled = localStorage.getItem('vitepress-amoled-enabled') === 'true';
-            var themeName = localStorage.getItem('vitepress-theme-name');
-            var varsJson = localStorage.getItem('vitepress-theme-vars');
+            var themeName = 'freeport';
 
             if (!mode) {
               mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -123,60 +123,9 @@ export default defineConfig({
             if (mode === 'dark' && amoled) d.classList.add('amoled');
             else d.classList.remove('amoled');
 
-            if (themeName === 'monochrome') d.classList.add('monochrome');
-            else d.classList.remove('monochrome');
-
-            if (varsJson) {
-              var vars = JSON.parse(varsJson);
-              for (var k in vars) {
-                if (Object.prototype.hasOwnProperty.call(vars, k) && k.indexOf('--vp-') === 0) {
-                  d.style.setProperty(k, vars[k]);
-                }
-              }
-            }
-          } catch (e) {}
-        })();
-        `
-    ],
-    [
-      'script',
-      {},
-      `
-        (function() {
-          try {
-            var today = new Date();
-            if (today.getMonth() === 5) {
-              document.documentElement.classList.add('june');
-              function applyJuneFavicon() {
-                var links = document.querySelectorAll("link[rel*='icon']");
-                links.forEach(function(link) {
-                  if (link.getAttribute('href') !== '/june_icon.webp') {
-                    link.setAttribute('href', '/june_icon.webp');
-                    if (link.hasAttribute('type')) {
-                      link.setAttribute('type', 'image/webp');
-                    }
-                  }
-                });
-              }
-              function applyJuneLogo() {
-                var logos = document.querySelectorAll("img.logo, img[src*='fmhy.ico']");
-                logos.forEach(function(img) {
-                  if (img.getAttribute('src') !== '/june_icon.webp') {
-                    img.setAttribute('src', '/june_icon.webp');
-                  }
-                });
-              }
-              applyJuneFavicon();
-              applyJuneLogo();
-              // Favicons live in <head>; scope the observer there instead of the whole document.
-              new MutationObserver(applyJuneFavicon).observe(document.head, {
-                childList: true,
-                attributes: true,
-                attributeFilter: ['href', 'type']
-              });
-              // The nav logo isn't in <head>; re-apply it on route changes (see theme/index.ts).
-              window.__fmhyApplyJuneLogo = applyJuneLogo;
-            }
+            d.classList.remove('monochrome');
+            localStorage.setItem('vitepress-theme-name', themeName);
+            localStorage.removeItem('vitepress-theme-vars');
           } catch (e) {}
         })();
         `
@@ -185,6 +134,51 @@ export default defineConfig({
   transformHead: async (context) => generateMeta(context, meta.hostname),
   buildEnd: async (context) => {
     try {
+      await writeFile(
+        fileURLToPath(new URL('./dist/manifest.json', import.meta.url)),
+        JSON.stringify(
+          {
+            name: brand.name,
+            short_name: brand.shortName,
+            description: brand.description,
+            theme_color: brand.themeColor,
+            background_color: '#ffffff',
+            display: 'standalone',
+            orientation: 'portrait',
+            scope: '/',
+            start_url: '/',
+            icons: [
+              {
+                src: brand.assets.favicon,
+                sizes: '16x16',
+                type: 'image/x-icon'
+              },
+              {
+                src: brand.assets.pwaIcon,
+                sizes: '192x192',
+                type: 'image/png',
+                purpose: 'any maskable'
+              },
+              {
+                src: '/freeport-pwa-512.png',
+                sizes: '512x512',
+                type: 'image/png',
+                purpose: 'any maskable'
+              }
+            ]
+          },
+          null,
+          2
+        )
+      )
+      await Promise.all(
+        ['posts', 'other', 'single-page.md'].map((path) =>
+          rm(fileURLToPath(new URL(`./dist/${path}`, import.meta.url)), {
+            recursive: true,
+            force: true
+          })
+        )
+      )
       await generateImages(context)
       await generateFeed(context)
       consola.success('Build hooks completed successfully.')
@@ -335,17 +329,17 @@ export default defineConfig({
     footer: {
       message: `${feedback} (rev: ${commitRef})`,
       copyright:
-        `© ${new Date().getFullYear()}, <a href="https://i.ibb.co/VJQmQ9t/image.png">Estd 2018.</a>` +
-        `<br/> This site does not host any files.`
+        `© ${new Date().getFullYear()}, ${brand.name}.` +
+        `<br/> Curated links, no hosted files.`
     },
     editLink: {
-      pattern: 'https://github.com/fmhy/edit/edit/main/docs/:path',
+      pattern: `${brand.repoUrl}/edit/main/docs/:path`,
       text: '📝 Edit this page'
     },
     outline: 'deep',
     logo: {
-      src: '/fmhy.ico',
-      alt: 'FMHY Logo'
+      src: brand.assets.logo,
+      alt: `${brand.name} logo`
     },
     nav,
     sidebar,

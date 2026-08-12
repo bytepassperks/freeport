@@ -81,12 +81,12 @@ export function parseSessionCookie(request: Request) {
   return value
     .split(';')
     .map((part) => part.trim())
-    .find((part) => part.startsWith('fmhy_session='))
-    ?.slice('fmhy_session='.length)
+    .find((part) => part.startsWith('freeport_session='))
+    ?.slice('freeport_session='.length)
 }
 
 export function sessionCookie(token: string, maxAge = SESSION_MAX_AGE_SECONDS) {
-  return `fmhy_session=${token}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`
+  return `freeport_session=${token}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`
 }
 
 export function constantTimeEqual(a: string, b: string) {

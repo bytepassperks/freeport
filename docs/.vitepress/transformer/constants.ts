@@ -1,3 +1,4 @@
+import { brand } from '../../../brand.config'
 import { meta } from '../constants'
 
 /**
@@ -138,15 +139,15 @@ export const headers: Header = {
   },
   'newsletter.md': {
     title: 'Newsletter Registration',
-    description: 'Register for occasional FMHY updates.'
+    description: `Register for occasional ${brand.name} updates.`
   },
   'register.md': {
     title: 'Create an Account',
-    description: 'Create an FMHY account.'
+    description: `Create a ${brand.name} account.`
   },
   'login.md': {
     title: 'Log In',
-    description: 'Log in to your FMHY account.'
+    description: `Log in to your ${brand.name} account.`
   }
 } as const
 

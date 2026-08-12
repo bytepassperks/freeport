@@ -3,39 +3,10 @@ import { useRoute } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import Announcement from './components/Announcement.vue'
-import Base64Dialog from './components/Base64Dialog.vue'
+import HomeSearch from './components/HomeSearch.vue'
 import Sidebar from './components/SidebarCard.vue'
 
 const { Layout } = DefaultTheme
-const showBase64Dialog = ref(false)
-const formattedUrl = ref('')
-
-const handleClick = (e: MouseEvent) => {
-  // Check if the clicked element is a link or within a link
-  const target = e.target as HTMLElement
-  const link = target.closest ? target.closest('a') : null
-
-  if (link) {
-    const href = (link as HTMLAnchorElement).href
-
-    if (typeof href === 'string') {
-      if (
-        href.includes('https://rentry.co/FMHYB64') ||
-        href.startsWith('https://rentry.co/FMHYB64')
-      ) {
-        const dontShow = localStorage.getItem('fmhy-base64-dialog-preference')
-        if (dontShow === 'true') {
-          return // Let the link click proceed normally
-        }
-
-        e.preventDefault()
-        e.stopPropagation()
-        formattedUrl.value = href
-        showBase64Dialog.value = true
-      }
-    }
-  }
-}
 
 // Anchors are stable for the lifetime of a page; invalidate on route change.
 let cachedAnchors: HTMLElement[] | null = null
@@ -93,14 +64,12 @@ watch(
 )
 
 onMounted(() => {
-  window.addEventListener('click', handleClick, { capture: true })
   window.addEventListener('scroll', scheduleMobileLinkUpdate, { passive: true })
   window.addEventListener('click', handleAnyClick, { passive: true })
   scheduleMobileLinkUpdate()
 })
 
 onUnmounted(() => {
-  window.removeEventListener('click', handleClick, { capture: true })
   window.removeEventListener('scroll', scheduleMobileLinkUpdate)
   window.removeEventListener('click', handleAnyClick)
 })
@@ -114,19 +83,11 @@ onUnmounted(() => {
     <template #home-hero-info-before>
       <Announcement />
     </template>
-    <template #home-features-before>
-      <p class="text-center text-lg text-text-2 mb-2">
-        Or browse these pages
-        <span class="inline-block i-twemoji:sparkles" />
-      </p>
+    <template #home-hero-actions-after>
+      <HomeSearch />
     </template>
     <Content />
   </Layout>
-  <Base64Dialog
-    :show="showBase64Dialog"
-    :url="formattedUrl"
-    @close="showBase64Dialog = false"
-  />
 </template>
 
 <style>

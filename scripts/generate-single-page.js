@@ -29,7 +29,7 @@ const files = [
   'video.md'
 ]
 
-const OUTPUT_FILE = 'docs/public/single-page.md'
+const OUTPUT_FILE = 'docs/single-page.md'
 
 function generateSinglePage() {
   console.log('Generating single-page markdown...')

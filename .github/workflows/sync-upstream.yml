@@ -1,0 +1,69 @@
+name: Sync upstream content
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com:443/fmhy/edit.git
+          git fetch upstream main
+
+      - name: Import upstream Markdown content
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-strip-types scripts/sync-upstream.mjs upstream/main
+
+      - name: Build and check de-branding
+        run: |
+          pnpm docs:build
+          if rg -il 'fmhy|freemediaheckyeah' docs/.vitepress/dist \
+            --glob '*.html' --glob '*.xml' --glob '*.rss' \
+            --glob '*.json' --glob '*.txt'; then
+            echo "User-visible upstream branding remains in the built output."
+            exit 1
+          fi
+          if rg -il 'fmhy-leads' docs/.vitepress/dist \
+            --glob '*.html' --glob '*.xml' --glob '*.rss' \
+            --glob '*.json' --glob '*.txt'; then
+            echo "The internal D1 database name leaked into user-visible output."
+            exit 1
+          fi
+
+      - name: Open sync pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          base: main
+          branch: sync/upstream
+          delete-branch: true
+          title: 'chore: sync upstream content'
+          commit-message: 'chore: sync upstream content'
+          body: |
+            Automated upstream Markdown sync. The build and user-visible branding
+            leak check passed; review the generated diff before merging.
