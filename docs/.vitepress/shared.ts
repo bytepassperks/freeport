@@ -125,7 +125,10 @@ export const nav: DefaultTheme.NavItem[] = [
     items: [
       { text: '🌐 Search', link: '/posts/search' },
       { text: '❓ FAQs', link: '/other/FAQ' },
-      { text: '🔖 Bookmarks', link: 'https://github.com/mian196/fmhy-bookmarks-extension' },
+      {
+        text: '🔖 Bookmarks',
+        link: 'https://github.com/mian196/fmhy-bookmarks-extension'
+      },
       { text: '✅ SafeGuard', link: 'https://github.com/fmhy/FMHY-SafeGuard' },
       { text: '🚀 Startpage', link: '/startpage' },
       { text: '🔎 SearXNG', link: 'https://searx.fmhy.net/' },
@@ -142,7 +145,10 @@ export const nav: DefaultTheme.NavItem[] = [
         link: '/other/selfhosting'
       },
       { text: '🏞 Wallpapers', link: '/other/wallpapers' },
-      { text: '💙 Feedback', link: '/feedback' }
+      { text: '💙 Feedback', link: '/feedback' },
+      { text: '📬 Newsletter', link: '/newsletter' },
+      { text: '🔐 Log In', link: '/login' },
+      { text: '📝 Create Account', link: '/register' }
     ]
   }
 ]
@@ -289,6 +295,14 @@ export const sidebar: DefaultTheme.Sidebar | DefaultTheme.NavItemWithLink[] = [
       {
         text: '<span class="i-twemoji:package"></span> Storage',
         link: '/storage'
+      },
+      {
+        text: '<span class="i-twemoji:incoming-envelope"></span> Newsletter',
+        link: '/newsletter'
+      },
+      {
+        text: '<span class="i-twemoji:locked"></span> Log In',
+        link: '/login'
       }
     ]
   }

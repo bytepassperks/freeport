@@ -108,6 +108,7 @@ watch(width, (newWidth) => {
       </template>
       <template #nav-bar-content-after>
         <slot name="nav-bar-content-after" />
+        <AuthStatus />
       </template>
     </VPNavBar>
     <VPNavScreen :open="isScreenOpen">
@@ -116,6 +117,7 @@ watch(width, (newWidth) => {
       </template>
       <template #nav-screen-content-after>
         <slot name="nav-screen-content-after" />
+        <AuthStatus class="px-6 pb-6" />
       </template>
     </VPNavScreen>
   </header>

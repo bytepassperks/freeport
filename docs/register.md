@@ -1,0 +1,1 @@
+<AuthForm mode="register" />

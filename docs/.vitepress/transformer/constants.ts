@@ -135,6 +135,18 @@ export const headers: Header = {
   'recently-removed.md': {
     title: 'Recently Removed Sites',
     description: 'List of sites recently removed from the wiki'
+  },
+  'newsletter.md': {
+    title: 'Newsletter Registration',
+    description: 'Register for occasional FMHY updates.'
+  },
+  'register.md': {
+    title: 'Create an Account',
+    description: 'Create an FMHY account.'
+  },
+  'login.md': {
+    title: 'Log In',
+    description: 'Log in to your FMHY account.'
   }
 } as const
 

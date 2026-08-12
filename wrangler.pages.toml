@@ -1,0 +1,9 @@
+name = "fmhy-mirror"
+pages_build_output_dir = "docs/.vitepress/dist"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "fmhy-leads"
+database_id = "dd12a941-c471-41e2-a938-97e56dd11349"

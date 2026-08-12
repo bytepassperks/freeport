@@ -30,7 +30,10 @@ import './style.scss'
 import 'virtual:uno.css'
 
 import FloatingVue from 'floating-vue'
+import AuthForm from './components/AuthForm.vue'
+import AuthStatus from './components/AuthStatus.vue'
 import Feedback from './components/Feedback.vue'
+import RegistrationForm from './components/RegistrationForm.vue'
 
 import 'floating-vue/dist/style.css'
 
@@ -53,6 +56,9 @@ export default {
     app.component('Tag', Tag)
     app.component('Post', Post)
     app.component('Feedback', Feedback)
+    app.component('RegistrationForm', RegistrationForm)
+    app.component('AuthForm', AuthForm)
+    app.component('AuthStatus', AuthStatus)
     app.component('Tooltip', Tooltip)
     loadProgress(router)
 
