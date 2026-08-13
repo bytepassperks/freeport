@@ -3,6 +3,14 @@ html {
 }
 
 @font-face {
+  font-family: 'Freeport Display';
+  src: url('/fonts/DMSerifDisplay-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Freeport Sans';
   src: url('/fonts/Inter-Regular.otf') format('opentype');
   font-weight: 400;
@@ -34,7 +42,16 @@ html {
   --freeport-sand: #f2c879;
   --freeport-paper: #f7f9fb;
   --vp-font-family-base: 'Freeport Sans', Inter, system-ui, sans-serif;
+  --vp-font-family-heading: 'Freeport Display', Georgia, serif;
   --vp-font-family-mono: 'SFMono-Regular', Consolas, monospace;
+  --freeport-space-1: 0.375rem;
+  --freeport-space-2: 0.625rem;
+  --freeport-space-3: 0.875rem;
+  --freeport-space-4: 1.25rem;
+  --freeport-space-5: 1.75rem;
+  --freeport-space-6: 2.5rem;
+  --freeport-space-7: 4rem;
+  --freeport-space-8: 6rem;
   --vp-c-brand-1: var(--freeport-teal-dark);
   --vp-c-brand-2: var(--freeport-teal);
   --vp-c-brand-3: #63c9c0;
@@ -1748,5 +1765,679 @@ html.monolith {
 @media (max-width: 420px) {
   .VPHero .actions {
     flex-wrap: wrap;
+  }
+}
+
+/* Freeport design pass */
+:root {
+  --freeport-ink: #101d2d;
+  --freeport-muted: #526477;
+  --freeport-line: color-mix(in srgb, var(--freeport-navy) 15%, transparent);
+  --freeport-display-scale: 1;
+}
+
+.dark {
+  --freeport-ink: #f4f7f8;
+  --freeport-muted: #b7c7d2;
+  --freeport-line: color-mix(in srgb, #b7c7d2 19%, transparent);
+  --vp-c-bg: #081827;
+  --vp-c-bg-alt: #0c2032;
+  --vp-c-bg-elv: #102b43;
+}
+
+body {
+  line-height: 1.55;
+}
+
+.VPNav {
+  border-bottom-color: color-mix(in srgb, var(--vp-c-text-1) 14%, transparent);
+  background: color-mix(in srgb, var(--vp-c-bg) 94%, transparent);
+  box-shadow: 0 0.4rem 1.2rem color-mix(in srgb, #061321 7%, transparent);
+}
+
+.VPNavBar {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.VPNavBar .VPNavBarMenuLink > span[class*='i-lucide'],
+.VPNavBar .VPFlyout .items a span[class*='i-lucide'],
+.VPNavScreen .VPFlyout .items a span[class*='i-lucide'] {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.35rem;
+  vertical-align: -0.16em;
+}
+
+.VPNavScreen .VPFlyout .items a {
+  display: flex;
+  align-items: center;
+}
+
+.VPHero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-bottom: var(--freeport-space-6);
+  padding: var(--freeport-space-8) 2rem var(--freeport-space-7);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--freeport-teal) 7%, transparent),
+      transparent 58%
+    ),
+    var(--vp-c-bg);
+}
+
+.VPHero::after {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8.5rem;
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in srgb, var(--freeport-navy) 92%, var(--vp-c-bg))
+    ),
+    repeating-linear-gradient(
+      175deg,
+      transparent 0 1.8rem,
+      color-mix(in srgb, var(--freeport-teal) 22%, transparent) 1.85rem 1.9rem
+    );
+  content: '';
+  opacity: 0.95;
+}
+
+.VPHero .container {
+  position: relative;
+  z-index: 1;
+  grid-template-columns: minmax(0, 0.92fr) minmax(20rem, 1.08fr);
+  max-width: 78rem;
+  gap: var(--freeport-space-7);
+}
+
+.VPHero .heading {
+  max-width: 24rem;
+}
+
+.VPHero .name {
+  max-width: none;
+  color: var(--freeport-ink);
+  font-family: 'Freeport Display', Georgia, serif !important;
+  font-size: clamp(3.35rem, 6vw, 5.8rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.93;
+}
+
+.VPHero .tagline {
+  max-width: 38rem;
+  color: var(--freeport-muted);
+  font-size: clamp(1.05rem, 1.55vw, 1.3rem);
+  line-height: 1.45;
+}
+
+.VPHero .image {
+  align-self: end;
+  min-height: 17rem;
+  padding: 0 0 0.7rem;
+}
+
+.VPHero .image-src {
+  width: min(100%, 46rem);
+  max-height: none;
+  filter: drop-shadow(0 1.5rem 1.25rem rgba(2, 14, 26, 0.3));
+  object-fit: contain;
+}
+
+.VPHero .actions {
+  align-items: center;
+  gap: var(--freeport-space-4);
+  margin-top: var(--freeport-space-5);
+}
+
+.VPHero .actions .VPButton {
+  min-height: 2.7rem;
+  border-radius: 0.45rem;
+  padding-inline: 1rem;
+  font-size: 0.9rem;
+}
+
+.VPHero .actions .VPButton.alt {
+  border: 0;
+  background: transparent;
+  color: var(--freeport-muted);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+}
+
+.VPHero .actions .VPButton.alt:hover {
+  border: 0;
+  background: transparent;
+  color: var(--freeport-ink);
+  text-decoration-color: var(--freeport-teal);
+}
+
+.freeport-hero-search {
+  width: min(100%, 31rem);
+  min-height: 3.4rem;
+  margin-top: var(--freeport-space-5);
+  border: 1px solid
+    color-mix(in srgb, var(--freeport-teal) 38%, var(--vp-c-divider));
+  border-radius: 0.5rem;
+  background: var(--vp-c-bg-elv);
+  box-shadow: 0 0.8rem 1.8rem color-mix(in srgb, #061321 13%, transparent);
+}
+
+.freeport-hero-search:hover {
+  border-color: var(--freeport-teal);
+  box-shadow: 0 1rem 2.2rem color-mix(in srgb, #061321 18%, transparent);
+}
+
+.freeport-hero-search-icon {
+  color: var(--freeport-teal);
+}
+
+.freeport-directory {
+  max-width: 78rem;
+  margin: 0 auto var(--freeport-space-8);
+  padding: 0 2rem;
+}
+
+.freeport-section-heading {
+  display: block;
+  margin-bottom: var(--freeport-space-5);
+}
+
+.freeport-section-heading .freeport-eyebrow {
+  display: block;
+  margin: 0;
+  color: var(--freeport-teal-dark);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dark .freeport-section-heading .freeport-eyebrow {
+  color: #75d4cb;
+}
+
+.freeport-section-heading h2 {
+  max-width: 18ch;
+  margin: var(--freeport-space-2) 0 0;
+  color: var(--freeport-ink);
+  font-family: 'Freeport Display', Georgia, serif;
+  font-size: clamp(2rem, 3.6vw, 3.1rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.freeport-section-heading p {
+  max-width: 65ch;
+  margin: var(--freeport-space-3) 0 0;
+  color: var(--freeport-muted);
+  line-height: 1.55;
+}
+
+.freeport-featured-grid {
+  gap: var(--freeport-space-4);
+  margin-bottom: var(--freeport-space-6);
+}
+
+.freeport-featured-card {
+  min-height: 14.5rem;
+  padding: var(--freeport-space-5);
+  border: 1px solid var(--freeport-line);
+  border-radius: 0.6rem;
+  background: color-mix(
+    in srgb,
+    var(--vp-c-bg-elv) 92%,
+    var(--freeport-teal) 8%
+  );
+  box-shadow: 0 0.6rem 1.5rem color-mix(in srgb, #061321 7%, transparent);
+}
+
+.freeport-featured-card:hover {
+  border-top-color: var(--freeport-teal);
+  border-right-color: var(--freeport-line);
+  border-bottom-color: var(--freeport-line);
+  border-left-color: var(--freeport-line);
+  box-shadow: 0 1rem 2rem color-mix(in srgb, #061321 13%, transparent);
+  transform: translateY(-0.2rem);
+}
+
+.freeport-home-icon {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--freeport-teal);
+  font-size: 1.05rem;
+}
+
+.freeport-featured-card h3 {
+  margin-top: var(--freeport-space-4);
+  color: var(--freeport-ink);
+  font-family: 'Freeport Display', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.freeport-featured-card p {
+  max-width: 30ch;
+  margin-top: var(--freeport-space-3);
+  color: var(--freeport-muted);
+  line-height: 1.5;
+}
+
+.freeport-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: var(--freeport-space-4);
+}
+
+.freeport-card-tags span {
+  border: 1px solid var(--freeport-line);
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  color: var(--freeport-muted);
+  font-size: 0.72rem;
+}
+
+.freeport-directory-row {
+  min-height: 4.5rem;
+  gap: var(--freeport-space-4);
+  border-bottom-color: var(--freeport-line);
+}
+
+.freeport-directory-row:hover {
+  padding-inline: var(--freeport-space-2);
+  background: transparent;
+  color: var(--freeport-ink);
+}
+
+.freeport-directory-row > .freeport-home-icon {
+  flex: 0 0 1.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--freeport-muted);
+}
+
+.freeport-directory-row:hover > .freeport-home-icon {
+  color: var(--freeport-teal);
+}
+
+.freeport-directory-row strong {
+  color: var(--freeport-ink);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.freeport-directory-row small {
+  color: var(--freeport-muted);
+  font-size: 0.82rem;
+}
+
+.VPDoc {
+  max-width: 80rem;
+}
+
+.VPDoc .content {
+  max-width: 70ch;
+}
+
+.VPDoc h1,
+.VPDoc h2,
+.VPDoc h3,
+.VPDoc h4 {
+  color: var(--freeport-ink);
+  font-family: 'Freeport Display', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.VPDoc h1 {
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+}
+
+.VPDoc h2 {
+  margin-top: var(--freeport-space-7);
+  padding-top: var(--freeport-space-4);
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+}
+
+.VPDoc h3 {
+  margin-top: var(--freeport-space-6);
+  font-size: clamp(1.45rem, 2.3vw, 1.9rem);
+}
+
+.VPDoc p,
+.VPDoc li {
+  line-height: 1.65;
+}
+
+.VPDoc li {
+  margin: 0.42rem 0;
+}
+
+.VPDoc a {
+  color: var(--freeport-ink);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease;
+}
+
+.VPDoc a:hover {
+  color: var(--freeport-ink);
+  text-decoration-color: var(--freeport-teal);
+}
+
+.VPDoc .custom-block {
+  border-radius: 0.45rem;
+  box-shadow: none;
+}
+
+.VPSidebar {
+  background: color-mix(in srgb, var(--vp-c-bg-alt) 90%, transparent);
+}
+
+.VPSidebar .item > .link {
+  padding-block: 0.45rem;
+}
+
+.VPSidebarItem.is-active > .item > .link {
+  border-left-width: 2px;
+  background: color-mix(in srgb, var(--freeport-teal) 11%, transparent);
+  color: var(--freeport-ink);
+}
+
+@media (max-width: 959px) {
+  .VPHero {
+    margin-bottom: var(--freeport-space-6);
+    padding: var(--freeport-space-7) 1.25rem var(--freeport-space-6);
+  }
+
+  .VPHero::after {
+    height: 7rem;
+  }
+
+  .VPHero .container {
+    display: block;
+  }
+
+  .VPHero .heading {
+    max-width: none;
+  }
+
+  .VPHero .name {
+    max-width: none;
+    font-size: clamp(2.85rem, 12vw, 4.4rem);
+  }
+
+  .VPHero .image {
+    display: flex;
+    min-height: 8rem;
+    margin-top: var(--freeport-space-5);
+    padding-bottom: 0;
+  }
+
+  .VPHero .image-src {
+    width: min(100%, 30rem);
+  }
+
+  .VPHero .actions {
+    flex-wrap: wrap;
+  }
+
+  .freeport-directory {
+    padding: 0 1.25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .VPHero .actions .action {
+    flex: 0 0 auto;
+  }
+
+  .VPHero .actions .VPButton {
+    width: auto;
+  }
+
+  .freeport-featured-grid,
+  .freeport-directory-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Final rhythm and state polish */
+:root {
+  --freeport-radius: 0.55rem;
+  --freeport-shadow: 0 0.75rem 1.8rem
+    color-mix(in srgb, #061321 10%, transparent);
+}
+
+.freeport-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--freeport-space-5);
+  margin-top: var(--freeport-space-5);
+  padding-top: var(--freeport-space-4);
+  border-top: 1px solid var(--freeport-line);
+}
+
+.freeport-proof span {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.freeport-proof strong {
+  color: var(--freeport-ink);
+  font-family: var(--freeport-display, 'Freeport Display'), Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.freeport-proof small {
+  color: var(--freeport-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.freeport-featured-card,
+.freeport-directory-row,
+.VPButton,
+.freeport-hero-search,
+.freeport-search-button {
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.freeport-featured-card:active,
+.freeport-directory-row:active,
+.VPButton:active,
+.freeport-hero-search:active,
+.freeport-search-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 0.2rem 0.55rem color-mix(in srgb, #061321 15%, transparent);
+}
+
+.VPButton.brand {
+  box-shadow: 0 0.45rem 1rem
+    color-mix(in srgb, var(--freeport-teal) 24%, transparent);
+}
+
+.VPButton.brand:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0.7rem 1.3rem
+    color-mix(in srgb, var(--freeport-teal) 30%, transparent);
+}
+
+.VPHero .actions .VPButton.alt {
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--freeport-muted) !important;
+  box-shadow: none !important;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+}
+
+.VPHero .actions .VPButton.alt:hover {
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--freeport-ink) !important;
+  text-decoration-color: var(--freeport-teal);
+  transform: none;
+}
+
+.VPDoc .content {
+  max-width: 68ch;
+}
+
+.VPDoc .content > .vp-doc,
+.VPDoc .content > div {
+  font-size: 1rem;
+}
+
+.VPDoc .custom-block {
+  margin: 1.5rem 0;
+  border: 1px solid
+    color-mix(in srgb, var(--freeport-teal) 26%, var(--vp-c-divider));
+  border-left: 0.28rem solid var(--freeport-teal);
+  background: color-mix(in srgb, var(--freeport-teal) 7%, var(--vp-c-bg-elv));
+  padding: 1rem 1.15rem;
+}
+
+.VPDoc .custom-block.tip {
+  border-left-color: var(--freeport-sand);
+  background: color-mix(in srgb, var(--freeport-sand) 12%, var(--vp-c-bg-elv));
+}
+
+.VPDoc .custom-block-title {
+  color: var(--freeport-ink);
+  font-weight: 700;
+}
+
+.VPSidebar {
+  box-shadow: inset -1px 0 var(--freeport-line);
+}
+
+.VPSidebar .item > .link:hover {
+  background: color-mix(in srgb, var(--freeport-teal) 8%, transparent);
+}
+
+.VPLocalSearchBox .shell {
+  border: 1px solid var(--freeport-line);
+  border-radius: 0.75rem;
+  background: var(--vp-c-bg-elv);
+  box-shadow: 0 2rem 5rem color-mix(in srgb, #061321 25%, transparent);
+}
+
+.VPLocalSearchBox .search-bar {
+  min-height: 3.25rem;
+  border-color: var(--freeport-line);
+  border-radius: var(--freeport-radius);
+  background: var(--vp-c-bg);
+}
+
+.VPLocalSearchBox .search-bar:focus-within {
+  border-color: var(--freeport-teal);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--freeport-teal) 20%, transparent);
+}
+
+.VPLocalSearchBox .search-input {
+  color: var(--freeport-ink);
+}
+
+.VPDoc form.border-\$vp-c-divider {
+  border-radius: var(--freeport-radius);
+  background: color-mix(
+    in srgb,
+    var(--vp-c-bg-elv) 96%,
+    var(--freeport-teal) 4%
+  );
+}
+
+.VPDoc form.border-\$vp-c-divider input:not([type='checkbox']),
+.VPDoc form.border-\$vp-c-divider textarea {
+  border-radius: var(--freeport-radius);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.VPDoc form.border-\$vp-c-divider input:not([type='checkbox']):hover,
+.VPDoc form.border-\$vp-c-divider textarea:hover {
+  border-color: color-mix(
+    in srgb,
+    var(--freeport-teal) 55%,
+    var(--vp-c-divider)
+  );
+}
+
+.VPDoc form.border-\$vp-c-divider input:not([type='checkbox']):focus,
+.VPDoc form.border-\$vp-c-divider textarea:focus {
+  border-color: var(--freeport-teal);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--freeport-teal) 18%, transparent);
+  outline: 0;
+}
+
+.VPDoc form.border-\$vp-c-divider button[type='submit'] {
+  border: 1px solid var(--freeport-teal);
+  border-radius: var(--freeport-radius);
+  background: var(--freeport-teal);
+  box-shadow: 0 0.35rem 0.8rem
+    color-mix(in srgb, var(--freeport-teal) 22%, transparent);
+}
+
+.VPDoc form.border-\$vp-c-divider button[type='submit']:not(:disabled):hover {
+  background: var(--freeport-teal-dark);
+  transform: translateY(-1px);
+}
+
+.VPDoc form.border-\$vp-c-divider button[type='submit']:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 640px) {
+  .freeport-section-heading {
+    margin-bottom: var(--freeport-space-4);
+  }
+
+  .freeport-proof {
+    gap: var(--freeport-space-4);
+    margin-top: var(--freeport-space-4);
+  }
+
+  .freeport-proof strong {
+    font-size: 1.15rem;
+  }
+
+  .VPLocalSearchBox .shell {
+    border: 0;
+    border-radius: 0;
   }
 }

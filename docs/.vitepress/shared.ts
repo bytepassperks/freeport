@@ -113,15 +113,24 @@ export const socialLinks: DefaultTheme.SocialLink[] = brand.showRepoLinks
 
 export const nav: DefaultTheme.NavItem[] = [
   {
-    text: '🧭 Explore',
+    text: '<span class="i-lucide:compass"></span> Explore',
     items: [
-      { text: '🌐 Search', link: '/?search' },
-      { text: '💙 Feedback', link: '/feedback' },
       {
-        text: '<span class="i-twemoji:incoming-envelope"></span> Newsletter',
+        text: '<span class="i-lucide:search"></span> Search',
+        link: '/?search'
+      },
+      {
+        text: '<span class="i-lucide:message-circle"></span> Feedback',
+        link: '/feedback'
+      },
+      {
+        text: '<span class="i-lucide:mail"></span> Newsletter',
         link: '/newsletter'
       },
-      { text: '📝 Create Account', link: '/register' }
+      {
+        text: '<span class="i-lucide:user-round-plus"></span> Create account',
+        link: '/register'
+      }
     ]
   }
 ]

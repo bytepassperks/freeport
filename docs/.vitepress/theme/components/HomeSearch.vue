@@ -8,6 +8,6 @@ const openSearch = () => {
   <button class="freeport-hero-search" type="button" @click="openSearch">
     <span class="freeport-hero-search-icon" aria-hidden="true">⌕</span>
     <span class="freeport-hero-search-label">Search the directory</span>
-    <kbd>⌘ K</kbd>
+    <kbd>Ctrl K</kbd>
   </button>
 </template>

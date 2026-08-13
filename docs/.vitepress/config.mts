@@ -133,7 +133,34 @@ export default defineConfig({
         `
     ]
   ],
-  transformHead: async (context) => generateMeta(context, meta.hostname),
+  transformHead: async (context) => {
+    const head = await generateMeta(context, meta.hostname)
+    if (context.pageData.relativePath === 'index.md') {
+      head.push(
+        [
+          'link',
+          {
+            rel: 'preload',
+            href: '/fonts/DMSerifDisplay-Regular.ttf',
+            as: 'font',
+            type: 'font/ttf',
+            crossorigin: ''
+          }
+        ],
+        [
+          'link',
+          {
+            rel: 'preload',
+            href: brand.assets.hero,
+            as: 'image',
+            type: 'image/webp',
+            fetchpriority: 'high'
+          }
+        ]
+      )
+    }
+    return head
+  },
   buildEnd: async (context) => {
     try {
       await writeFile(
@@ -337,7 +364,7 @@ export default defineConfig({
     editLink: brand.showRepoLinks
       ? {
           pattern: `${brand.repoUrl}/edit/main/docs/:path`,
-          text: '📝 Edit this page'
+          text: 'Edit this page'
         }
       : undefined,
     outline: 'deep',

@@ -166,7 +166,11 @@ export function getHeader(id: string) {
 
   const description = '<p class="text-black dark:text-text-2">'
 
-  const feedback = meta.build.api ? '<Feedback />' : ''
+  const feedback =
+    meta.build.api &&
+    !['login.md', 'register.md', 'newsletter.md', 'feedback.md'].includes(id)
+      ? '<Feedback />'
+      : ''
 
   const data = headers[id]
   let header = '---\n'

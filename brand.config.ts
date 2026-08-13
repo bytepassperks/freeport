@@ -25,7 +25,7 @@ export const brand = {
     icon: '/freeport-icon.png',
     monochromeIcon: '/freeport-icon-navy.png',
     appleTouchIcon: '/freeport-apple-touch.png',
-    hero: '/freeport-harbour.png'
+    hero: '/freeport-harbour.webp'
   },
   aliases: [
     'freemediaheckyeah',
