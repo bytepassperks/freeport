@@ -141,10 +141,6 @@ export const sidebar: DefaultTheme.Sidebar | DefaultTheme.NavItemWithLink[] = [
     link: '/beginners-guide'
   },
   {
-    text: '<span class="i-twemoji:newspaper"></span> Getting Started',
-    link: '/beginners-guide'
-  },
-  {
     text: 'Browse',
     collapsed: false,
     items: [
