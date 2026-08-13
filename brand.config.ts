@@ -8,7 +8,7 @@ export const brand = {
   description: "The internet's best free stuff, curated.",
   hostname,
   repoUrl: 'https://github.com/bytepassperks/freeport',
-  showRepoLinks: false,
+  showRepoLinks: true,
   contact: {
     feedbackPath: '/feedback',
     feedbackEndpoint: '/api/feedback'

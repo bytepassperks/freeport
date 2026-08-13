@@ -6,9 +6,12 @@ Markdown content of [upstream `fmhy/edit`](https://github.com/fmhy/edit), then
 published as a static VitePress site with same-origin Cloudflare Pages
 Functions for accounts, feedback, and newsletter registration.
 
-The upstream project is Apache-2.0 licensed. Freeport preserves its source
-attribution and license files; the public site applies a build-time
-transformation so upstream identity-heavy content is rewritten or excluded.
+The upstream repository's source files carry Apache-2.0 notices attributed to
+taskylizard. Freeport retains those notices and documents its changes in
+[`NOTICE`](./NOTICE). The public site applies a build-time transformation so
+upstream identity-heavy content is rewritten or excluded.
+
+Repository: <https://github.com/bytepassperks/freeport>
 
 ## Branding
 

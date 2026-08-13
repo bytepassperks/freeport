@@ -1,0 +1,19 @@
+Freeport
+========
+
+Freeport is a modified distribution built from content and source code in
+the upstream fmhy/edit repository:
+
+    https://github.com/fmhy/edit
+
+Copyright and Apache-2.0 notices present in upstream source files are
+retained. The upstream repository does not publish a root NOTICE file; this
+file records the provenance of the distribution and the changes made here.
+
+Changes by bytepassperks include:
+
+* Freeport branding, navigation, metadata, and visual theme.
+* Build-time de-branding and narrowly scoped upstream ownership filtering.
+* Freeport-owned authentication, feedback, newsletter, and administration
+  Pages Functions backed by Cloudflare D1.
+* Automated upstream synchronization and Cloudflare Pages deployment.

@@ -116,9 +116,6 @@ export const nav: DefaultTheme.NavItem[] = [
     text: '🧭 Explore',
     items: [
       { text: '🌐 Search', link: '/search' },
-      ...(brand.showRepoLinks
-        ? [{ text: '🔖 Bookmarks', link: brand.repoUrl }]
-        : []),
       { text: '💙 Feedback', link: '/feedback' },
       {
         text: '<span class="i-twemoji:incoming-envelope"></span> Newsletter',
