@@ -1700,6 +1700,24 @@ html.monolith {
   color: var(--vp-c-text-1);
 }
 
+.desktop-auth-status {
+  display: flex;
+}
+
+.mobile-auth-status {
+  display: none;
+}
+
+@media (max-width: 959px) {
+  .desktop-auth-status {
+    display: none;
+  }
+
+  .mobile-auth-status {
+    display: flex;
+  }
+}
+
 @media (max-width: 959px) {
   .VPHero .container {
     display: block;

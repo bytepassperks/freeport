@@ -124,7 +124,6 @@ export const nav: DefaultTheme.NavItem[] = [
         text: '<span class="i-twemoji:incoming-envelope"></span> Newsletter',
         link: '/newsletter'
       },
-      { text: '<span class="i-twemoji:locked"></span> Log In', link: '/login' },
       { text: '📝 Create Account', link: '/register' }
     ]
   }

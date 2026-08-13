@@ -3,16 +3,28 @@ import { useRouter } from 'vitepress'
 import { onMounted, ref } from 'vue'
 
 const router = useRouter()
-const user = ref<{ email: string; name: string | null } | null>(null)
+type AuthUser = { email: string; name: string | null }
+
+const user = ref<AuthUser | null>(null)
+let userLoaded = false
+let userRequest: Promise<void> | null = null
 
 async function loadUser() {
-  const response = await fetch('/api/auth/me')
-  if (response.ok) user.value = (await response.json()).user
+  if (userLoaded) return
+  if (!userRequest) {
+    userRequest = (async () => {
+      const response = await fetch('/api/auth/me')
+      if (response.ok) user.value = (await response.json()).user
+      userLoaded = true
+    })()
+  }
+  await userRequest
 }
 
 async function logout() {
   await fetch('/api/auth/logout', { method: 'POST' })
   user.value = null
+  userLoaded = true
   await router.go('/')
 }
 
