@@ -1,41 +1,28 @@
 <script setup lang="ts">
 import { useRouter } from 'vitepress'
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
+import {
+  authUser,
+  clearAuthUser,
+  loadAuthUser
+} from '../composables/authStatus'
 
 const router = useRouter()
-type AuthUser = { email: string; name: string | null }
-
-const user = ref<AuthUser | null>(null)
-let userLoaded = false
-let userRequest: Promise<void> | null = null
-
-async function loadUser() {
-  if (userLoaded) return
-  if (!userRequest) {
-    userRequest = (async () => {
-      const response = await fetch('/api/auth/me')
-      if (response.ok) user.value = (await response.json()).user
-      userLoaded = true
-    })()
-  }
-  await userRequest
-}
 
 async function logout() {
   await fetch('/api/auth/logout', { method: 'POST' })
-  user.value = null
-  userLoaded = true
+  clearAuthUser()
   await router.go('/')
 }
 
-onMounted(loadUser)
+onMounted(loadAuthUser)
 </script>
 
 <template>
   <div class="auth-status flex items-center gap-2 text-sm">
-    <template v-if="user">
+    <template v-if="authUser">
       <span class="hidden max-w-36 truncate sm:inline">
-        {{ user.name || user.email }}
+        {{ authUser.name || authUser.email }}
       </span>
       <button class="VPButton medium alt" type="button" @click="logout">
         Log out
