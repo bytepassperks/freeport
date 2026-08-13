@@ -1433,6 +1433,8 @@ html.monolith {
 .VPHero .main {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: none;
   min-width: 0;
 }
 
@@ -1493,7 +1495,7 @@ html.monolith {
 }
 
 .VPHero .actions {
-  margin-top: var(--freeport-space-3);
+  margin-top: var(--freeport-space-2);
 }
 
 .freeport-hero-search {
@@ -1819,8 +1821,8 @@ body {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  margin-bottom: var(--freeport-space-6);
-  padding: var(--freeport-space-8) 2rem var(--freeport-space-7);
+  margin-bottom: var(--freeport-space-4);
+  padding: var(--freeport-space-8) 2rem var(--freeport-space-4);
   background:
     linear-gradient(
       180deg,
@@ -1855,20 +1857,20 @@ body {
 .VPHero .container {
   position: relative;
   z-index: 1;
-  grid-template-columns: minmax(0, 0.92fr) minmax(20rem, 1.08fr);
-  max-width: 78rem;
+  grid-template-columns: minmax(0, 1.15fr) minmax(24rem, 0.85fr);
+  max-width: 72rem;
   gap: var(--freeport-space-7);
 }
 
 .VPHero .heading {
-  max-width: 38rem;
+  max-width: 40rem;
 }
 
 .VPHero .name {
   max-width: none;
   color: var(--freeport-ink);
   font-family: 'Freeport Display', Georgia, serif !important;
-  font-size: clamp(3.1rem, 5.2vw, 5.2rem);
+  font-size: clamp(2.9rem, 4.5vw, 4.8rem);
   font-weight: 400;
   letter-spacing: -0.045em;
   line-height: 0.93;
@@ -1887,8 +1889,8 @@ body {
 
 .VPHero .image {
   align-self: end;
-  min-height: 17rem;
-  padding: 0 0 0.7rem;
+  min-height: 0;
+  padding: 0;
 }
 
 .VPHero .image-src {
@@ -1902,7 +1904,7 @@ body {
   align-items: center;
   gap: var(--freeport-space-4);
   margin-left: 0;
-  margin-top: var(--freeport-space-3);
+  margin-top: var(--freeport-space-2);
 }
 
 .VPHero .actions .VPButton {
@@ -2176,8 +2178,8 @@ body {
 
 @media (max-width: 959px) {
   .VPHero {
-    margin-bottom: var(--freeport-space-6);
-    padding: var(--freeport-space-7) 1.25rem var(--freeport-space-6);
+    margin-bottom: var(--freeport-space-4);
+    padding: var(--freeport-space-7) 1.25rem var(--freeport-space-4);
     text-align: left;
   }
 
@@ -2202,8 +2204,8 @@ body {
 
   .VPHero .image {
     display: flex;
-    min-height: 8rem;
-    margin-top: var(--freeport-space-5);
+    min-height: 0;
+    margin-top: var(--freeport-space-3);
     padding-bottom: 0;
     justify-content: flex-start;
   }
@@ -2213,8 +2215,9 @@ body {
   }
 
   .VPHero .actions {
-    flex-wrap: wrap;
-    margin-top: var(--freeport-space-3);
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-top: var(--freeport-space-2);
   }
 
   .freeport-directory {
@@ -2223,6 +2226,12 @@ body {
 }
 
 @media (max-width: 420px) {
+  .VPHero .actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--freeport-space-1);
+  }
+
   .VPHero .actions .action {
     flex: 0 0 auto;
   }
@@ -2275,6 +2284,26 @@ body {
 
 :root:not(.dark) .VPHero::after {
   display: none;
+}
+
+.VPHero .actions {
+  justify-content: flex-start;
+  width: 100%;
+  gap: var(--freeport-space-3);
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.VPHero .actions .action {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+}
+
+.VPHero .actions .VPButton {
+  width: auto;
+  min-height: 2.25rem;
+  padding-inline: 0.5rem;
 }
 
 .fp-button {
