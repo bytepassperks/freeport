@@ -1,3 +1,3 @@
-Register to receive occasional updates about FMHY.
+Register for occasional Freeport notes: new guides, useful finds, and quiet improvements to the directory.
 
 <RegistrationForm />

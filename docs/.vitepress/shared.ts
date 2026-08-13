@@ -99,26 +99,26 @@ const cfStart = safeEnv('CF_PAGES_COMMIT_SHA')
 const commitStart = safeEnv('COMMIT_REF')
 
 export const commitRef =
-  safeEnv('CF_PAGES') && cfStart
+  brand.showRepoLinks && safeEnv('CF_PAGES') && cfStart
     ? formatCommitRef(cfStart)
-    : commitStart
+    : brand.showRepoLinks && commitStart
       ? formatCommitRef(commitStart)
       : 'dev'
 
 export const feedback = `<a href="${brand.contact.feedbackPath}" class="feedback-footer">Made with ❤</a>`
 
-export const socialLinks: DefaultTheme.SocialLink[] = brand.socialLinks
+export const socialLinks: DefaultTheme.SocialLink[] = brand.showRepoLinks
+  ? brand.socialLinks
+  : []
 
 export const nav: DefaultTheme.NavItem[] = [
-  { text: '📖 Glossary', link: 'https://rentry.org/The-Piracy-Glossary' },
   {
     text: '🧭 Explore',
     items: [
       { text: '🌐 Search', link: '/search' },
-      {
-        text: '🔖 Bookmarks',
-        link: brand.repoUrl
-      },
+      ...(brand.showRepoLinks
+        ? [{ text: '🔖 Bookmarks', link: brand.repoUrl }]
+        : []),
       { text: '💙 Feedback', link: '/feedback' },
       {
         text: '<span class="i-twemoji:incoming-envelope"></span> Newsletter',

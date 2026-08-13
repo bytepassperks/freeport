@@ -84,7 +84,11 @@ body {
   border-bottom: 1px solid
     color-mix(in srgb, var(--vp-c-brand-1) 18%, transparent);
   background: color-mix(in srgb, var(--vp-c-bg) 88%, transparent);
+}
+
+.VPNavBar {
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .VPNavBarTitle .title {

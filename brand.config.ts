@@ -8,6 +8,7 @@ export const brand = {
   description: "The internet's best free stuff, curated.",
   hostname,
   repoUrl: 'https://github.com/bytepassperks/freeport',
+  showRepoLinks: false,
   contact: {
     feedbackPath: '/feedback',
     feedbackEndpoint: '/api/feedback'
@@ -53,7 +54,10 @@ export const brand = {
       'https://api.fmhy.net/',
       'https://fmhyapi.wispy.qzz.io/',
       'https://greasyfork.org/en/scripts/485772-fmhy-base64-auto-decoder',
-      'https://github.com/fmhy/FMHY/wiki/FMHY-Discord'
+      'https://github.com/fmhy/FMHY/wiki/FMHY-Discord',
+      'https://ffmhy.pages.dev/',
+      'https://www.raycast.com/akshit_mehta/fmhy-search',
+      'https://github.com/iamshamit/fmhy-search-flow-launcher'
     ],
     discordInviteCodes: []
   }

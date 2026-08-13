@@ -49,6 +49,12 @@ function isOwnedUrl(value: string) {
     normalized.startsWith('rentry.co/fmhyb64') ||
     normalized.startsWith('rentry.org/ircfmhyguide') ||
     normalized.startsWith('rentry.org/opensteamtoolguidefmhy') ||
+    normalized === 'ffmhy.pages.dev' ||
+    normalized.startsWith('ffmhy.pages.dev/') ||
+    (normalized.startsWith('raycast.com/') &&
+      normalized.includes('fmhy-search')) ||
+    (normalized.startsWith('github.com/iamshamit/') &&
+      normalized.includes('fmhy-search')) ||
     (normalized.startsWith('greasyfork.org/') && normalized.includes('fmhy')) ||
     ((normalized.startsWith('discord.gg/') ||
       normalized.startsWith('discord.com/invite/')) &&
@@ -65,6 +71,12 @@ function isOwnedEntryUrl(value: string) {
     normalized.startsWith('github.com/fmhy/') ||
     normalized.startsWith('reddit.com/r/freemediaheckyeah') ||
     normalized.startsWith('fmhy.net/') ||
+    normalized === 'ffmhy.pages.dev' ||
+    normalized.startsWith('ffmhy.pages.dev/') ||
+    (normalized.startsWith('raycast.com/') &&
+      normalized.includes('fmhy-search')) ||
+    (normalized.startsWith('github.com/iamshamit/') &&
+      normalized.includes('fmhy-search')) ||
     ((normalized.startsWith('discord.gg/') ||
       normalized.startsWith('discord.com/invite/')) &&
       discordInviteCodes.has(normalized.split('/').pop() ?? '')) ||
@@ -86,11 +98,35 @@ function firstLinkIsOwned(line: string) {
 }
 
 function replaceAlias(value: string) {
-  return value.replace(aliasPattern, (match) => {
-    if (match === match.toUpperCase()) return brand.name.toUpperCase()
-    if (match === match.toLowerCase()) return brand.name.toLowerCase()
-    return brand.name
-  })
+  return value.replace(
+    aliasPattern,
+    (match, offset: number, source: string) => {
+      const lineStart = source.lastIndexOf('\n', offset) + 1
+      const lineEnd = source.indexOf('\n', offset)
+      const line = source.slice(
+        lineStart,
+        lineEnd === -1 ? source.length : lineEnd
+      )
+      const surroundingText = line
+        .replace(match, '')
+        .replace(/[`*_#[\]()>:]/g, '')
+        .replace(/https?:\/\/\S+/gi, '')
+        .replace(/[^a-zA-Z]+/g, '')
+      const isAllCapsHeading =
+        /^\s*#{1,6}\s/.test(line) &&
+        (surroundingText.length === 0 ||
+          surroundingText === surroundingText.toUpperCase())
+      if (
+        isAllCapsHeading ||
+        (surroundingText.length > 0 &&
+          surroundingText === surroundingText.toUpperCase())
+      ) {
+        return brand.name.toUpperCase()
+      }
+      if (match === match.toLowerCase()) return brand.name.toLowerCase()
+      return brand.name
+    }
+  )
 }
 
 export function rewriteBranding(

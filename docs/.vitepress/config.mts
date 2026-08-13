@@ -333,10 +333,12 @@ export default defineConfig({
         `© ${new Date().getFullYear()}, ${brand.name}.` +
         `<br/> Curated links, no hosted files.`
     },
-    editLink: {
-      pattern: `${brand.repoUrl}/edit/main/docs/:path`,
-      text: '📝 Edit this page'
-    },
+    editLink: brand.showRepoLinks
+      ? {
+          pattern: `${brand.repoUrl}/edit/main/docs/:path`,
+          text: '📝 Edit this page'
+        }
+      : undefined,
     outline: 'deep',
     logo: {
       src: brand.assets.logo,
