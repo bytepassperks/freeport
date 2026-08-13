@@ -41,18 +41,7 @@ jobs:
       - name: Build and check de-branding
         run: |
           pnpm docs:build
-          if rg -il 'fmhy|freemediaheckyeah' docs/.vitepress/dist \
-            --glob '*.html' --glob '*.xml' --glob '*.rss' \
-            --glob '*.json' --glob '*.txt'; then
-            echo "User-visible upstream branding remains in the built output."
-            exit 1
-          fi
-          if rg -il 'fmhy-leads' docs/.vitepress/dist \
-            --glob '*.html' --glob '*.xml' --glob '*.rss' \
-            --glob '*.json' --glob '*.txt'; then
-            echo "The internal D1 database name leaked into user-visible output."
-            exit 1
-          fi
+          pnpm check:branding
 
       - name: Disable local commit hooks for generated sync commit
         run: rm -f .git/hooks/pre-commit

@@ -38,6 +38,9 @@ jobs:
       - name: Build documentation
         run: pnpm docs:build
 
+      - name: Check de-branding
+        run: pnpm check:branding
+
       - name: Deploy Pages
         run:
           pnpm exec wrangler pages deploy docs/.vitepress/dist --project-name

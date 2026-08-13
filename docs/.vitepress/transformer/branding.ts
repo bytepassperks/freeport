@@ -34,17 +34,55 @@ export interface BrandingStats {
 
 export const brandingStats: BrandingStats[] = []
 
+function parseUrl(value: string) {
+  try {
+    return new URL(value)
+  } catch {
+    return null
+  }
+}
+
+function isFmhyHost(hostname: string) {
+  const host = hostname.toLowerCase()
+  return host === 'fmhy.net' || host.endsWith('.fmhy.net')
+}
+
+function isFmhyPagesHost(hostname: string) {
+  return /^fmhy-[a-z0-9-]+\.pages\.dev$/i.test(hostname)
+}
+
+function isOwnedRedditUrl(url: URL) {
+  return (
+    /(?:^|\.)reddit\.com$/i.test(url.hostname) &&
+    url.pathname.toLowerCase().startsWith('/r/freemediaheckyeah')
+  )
+}
+
+function isInternalCrossReference(value: string) {
+  const url = parseUrl(value)
+  if (!url || !isOwnedRedditUrl(url)) return false
+  return (
+    url.pathname.toLowerCase().replace(/\/+$/, '') ===
+      '/r/freemediaheckyeah/wiki/text-tools' &&
+    url.hash.toLowerCase().includes('note-taking')
+  )
+}
+
+function mapInternalCrossReference(value: string) {
+  return isInternalCrossReference(value) ? '/text-tools#note-taking' : null
+}
+
 function isOwnedUrl(value: string) {
-  const normalized = value
-    .replace(/^https?:\/\//i, '')
+  const url = parseUrl(value)
+  if (!url) return false
+  const normalized = `${url.hostname}${url.pathname}`
     .replace(/^www\./i, '')
     .toLowerCase()
   return (
     normalized.startsWith('github.com/fmhy/') ||
-    normalized.startsWith('reddit.com/r/freemediaheckyeah') ||
-    normalized.startsWith('fmhy.net/') ||
-    normalized.startsWith('searx.fmhy.net/') ||
-    normalized.startsWith('api.fmhy.net/') ||
+    isOwnedRedditUrl(url) ||
+    isFmhyHost(url.hostname) ||
+    isFmhyPagesHost(url.hostname) ||
     normalized.startsWith('fmhyapi.wispy.qzz.io/') ||
     normalized.startsWith('rentry.co/fmhyb64') ||
     normalized.startsWith('rentry.org/ircfmhyguide') ||
@@ -63,14 +101,17 @@ function isOwnedUrl(value: string) {
 }
 
 function isOwnedEntryUrl(value: string) {
-  const normalized = value
-    .replace(/^https?:\/\//i, '')
+  if (isInternalCrossReference(value)) return false
+  const url = parseUrl(value)
+  if (!url) return false
+  const normalized = `${url.hostname}${url.pathname}`
     .replace(/^www\./i, '')
     .toLowerCase()
   return (
     normalized.startsWith('github.com/fmhy/') ||
-    normalized.startsWith('reddit.com/r/freemediaheckyeah') ||
-    normalized.startsWith('fmhy.net/') ||
+    isOwnedRedditUrl(url) ||
+    isFmhyHost(url.hostname) ||
+    isFmhyPagesHost(url.hostname) ||
     normalized === 'ffmhy.pages.dev' ||
     normalized.startsWith('ffmhy.pages.dev/') ||
     (normalized.startsWith('raycast.com/') &&
@@ -159,13 +200,18 @@ export function rewriteBranding(
     .replace(/(`{3,}|~{3,})[\s\S]*?\1/g, protect)
     .replace(/`[^`\n]+`/g, protect)
     .replace(OWN_LINK_RE, (match, url: string) => {
+      const internalReference = mapInternalCrossReference(url)
+      if (internalReference) return match.replace(url, internalReference)
       if (!isOwnedUrl(url)) return match
       const label = match.match(/^\[([^\]]*)\]/)?.[1] ?? ''
       return label ? replaceAlias(label) : ''
     })
 
-  output = output.replace(/https?:\/\/[^\s<>)]+/gi, (url) =>
-    isOwnedUrl(url) ? brand.hostname : protect(url)
+  output = output.replace(
+    /https?:\/\/[^\s<>)]+/gi,
+    (url) =>
+      mapInternalCrossReference(url) ??
+      (isOwnedUrl(url) ? brand.hostname : protect(url))
   )
   output = replaceAlias(output)
 
