@@ -37,9 +37,15 @@ jobs:
 
       - name: Build documentation
         run: pnpm docs:build
+        env:
+          CF_PAGES: '1'
+          CF_PAGES_COMMIT_SHA: ${{ github.sha }}
 
       - name: Check de-branding
         run: pnpm check:branding
+
+      - name: Check internal links
+        run: pnpm check:links
 
       - name: Deploy Pages
         run:

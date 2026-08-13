@@ -42,6 +42,7 @@ jobs:
         run: |
           pnpm docs:build
           pnpm check:branding
+          pnpm check:links
 
       - name: Disable local commit hooks for generated sync commit
         run: rm -f .git/hooks/pre-commit

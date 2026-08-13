@@ -3,7 +3,7 @@ import { hashToken, json, parseSessionCookie } from '../../_lib'
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const token = parseSessionCookie(context.request)
-  if (!token) return json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+  if (!token) return json({ authenticated: false, user: null })
 
   const session = await context.env.DB.prepare(
     `SELECT u.email, u.name, u.created_at, s.expires_at

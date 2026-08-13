@@ -4,7 +4,15 @@ import { inBrowser, useData } from 'vitepress'
 import VPNavBar from 'vitepress/dist/client/theme-default/components/VPNavBar.vue'
 import VPNavScreen from 'vitepress/dist/client/theme-default/components/VPNavScreen.vue'
 import { useNav } from 'vitepress/dist/client/theme-default/composables/nav'
-import { computed, onMounted, provide, ref, watch, watchEffect } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  watch,
+  watchEffect
+} from 'vue'
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
 const { frontmatter } = useData()
@@ -33,6 +41,15 @@ const updateMobileNavClass = (hidden: boolean) => {
   } else {
     document.documentElement.classList.add('vp-nav-shown-mobile')
   }
+}
+
+const openSearchFromNav = (event: MouseEvent) => {
+  const target = event.target
+  if (!(target instanceof Element)) return
+  const link = target.closest<HTMLAnchorElement>('a[href="/?search"]')
+  if (!link) return
+  event.preventDefault()
+  document.querySelector<HTMLButtonElement>('.DocSearch-Button')?.click()
 }
 
 const SCROLL_THRESHOLD = 12
@@ -80,6 +97,11 @@ watch(y, (newY, oldY) => {
 
 onMounted(() => {
   updateMobileNavClass(isHidden.value)
+  document.addEventListener('click', openSearchFromNav)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', openSearchFromNav)
 })
 
 // Watch width to reset if resizing to desktop

@@ -13,6 +13,7 @@
     "api:preview": "node .output/server/index.mjs",
     "api:typegen": "wrangler types api/worker-configuration.d.ts",
     "check:branding": "node scripts/check-branding-leaks.mjs",
+    "check:links": "node scripts/check-internal-links.mjs",
     "docs:build": "node scripts/generate-removed.js && node scripts/generate-single-page.js && vitepress build docs/ && node scripts/remove-excluded-content.js",
     "docs:dev": "node scripts/generate-removed.js && node scripts/generate-single-page.js && vitepress dev docs/",
     "docs:preview": "vitepress preview docs/",

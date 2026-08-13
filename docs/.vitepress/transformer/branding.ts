@@ -138,6 +138,25 @@ function firstLinkIsOwned(line: string) {
   return first ? isOwnedEntryUrl(first[1]) : false
 }
 
+function removeOwnedReferenceSentences(text: string) {
+  return text
+    .split('\n')
+    .map((line) =>
+      line
+        .split(/(?<=[.!?])\s+/)
+        .filter((sentence) => {
+          const links = [
+            ...sentence.matchAll(/\[[^\]]*]\((https?:\/\/[^)\s]+)\)/gi)
+          ]
+          return !(
+            links.length >= 2 && links.every(([, url]) => isOwnedUrl(url))
+          )
+        })
+        .join(' ')
+    )
+    .join('\n')
+}
+
 function replaceAlias(value: string) {
   return value.replace(
     aliasPattern,
@@ -199,13 +218,14 @@ export function rewriteBranding(
   let output = dropped
     .replace(/(`{3,}|~{3,})[\s\S]*?\1/g, protect)
     .replace(/`[^`\n]+`/g, protect)
-    .replace(OWN_LINK_RE, (match, url: string) => {
-      const internalReference = mapInternalCrossReference(url)
-      if (internalReference) return match.replace(url, internalReference)
-      if (!isOwnedUrl(url)) return match
-      const label = match.match(/^\[([^\]]*)\]/)?.[1] ?? ''
-      return label ? replaceAlias(label) : ''
-    })
+  output = removeOwnedReferenceSentences(output)
+  output = output.replace(OWN_LINK_RE, (match, url: string) => {
+    const internalReference = mapInternalCrossReference(url)
+    if (internalReference) return match.replace(url, internalReference)
+    if (!isOwnedUrl(url)) return match
+    const label = match.match(/^\[([^\]]*)\]/)?.[1] ?? ''
+    return label ? replaceAlias(label) : ''
+  })
 
   output = output.replace(
     /https?:\/\/[^\s<>)]+/gi,

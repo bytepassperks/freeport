@@ -15,7 +15,7 @@ export async function loadAuthUser() {
   if (!userRequest) {
     userRequest = (async () => {
       const response = await fetch('/api/auth/me')
-      if (response.ok) authUser.value = (await response.json()).user
+      if (response.ok) authUser.value = (await response.json()).user ?? null
       userLoaded = true
     })()
   }
