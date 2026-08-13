@@ -1894,10 +1894,12 @@ body {
 }
 
 .VPHero .image-src {
-  width: min(100%, 46rem);
+  width: min(100%, 52rem);
   max-height: none;
   filter: drop-shadow(0 1.5rem 1.25rem rgba(2, 14, 26, 0.3));
   object-fit: contain;
+  transform: translateY(-1.5rem) scale(1.16);
+  transform-origin: center bottom;
 }
 
 .VPHero .actions {
@@ -1976,7 +1978,7 @@ body {
 }
 
 .freeport-section-heading h2 {
-  max-width: 34ch;
+  max-width: none;
   margin: var(--freeport-space-2) 0 0;
   color: var(--freeport-ink);
   font-family: 'Freeport Display', Georgia, serif;
@@ -2212,6 +2214,7 @@ body {
 
   .VPHero .image-src {
     width: min(100%, 30rem);
+    transform: none;
   }
 
   .VPHero .actions {
@@ -2254,8 +2257,8 @@ body {
 }
 
 .freeport-proof {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--freeport-space-5);
   margin-top: var(--freeport-space-5);
   padding-top: var(--freeport-space-4);
@@ -2265,6 +2268,16 @@ body {
 .freeport-proof span {
   display: grid;
   gap: 0.15rem;
+}
+
+@media (max-width: 640px) {
+  .freeport-hero-search kbd {
+    display: none;
+  }
+
+  .freeport-proof {
+    gap: var(--freeport-space-3);
+  }
 }
 
 .freeport-proof strong {
