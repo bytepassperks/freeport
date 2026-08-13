@@ -1701,20 +1701,20 @@ html.monolith {
 }
 
 .desktop-auth-status {
-  display: flex;
+  display: flex !important;
 }
 
 .mobile-auth-status {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 959px) {
-  .desktop-auth-status {
-    display: none;
+  .VPNavBar .desktop-auth-status {
+    display: none !important;
   }
 
-  .mobile-auth-status {
-    display: flex;
+  .VPNavScreen .mobile-auth-status {
+    display: flex !important;
   }
 }
 
