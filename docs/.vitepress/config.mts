@@ -26,7 +26,8 @@ import { replaceNoteLink } from './utils/markdown'
 
 // @unocss-include
 
-const baseUrl = process.env.GITHUB_ACTIONS ? '/edit' : '/'
+// Freeport is served from the root of its own domain, including from CI builds.
+const baseUrl = process.env.FREEPORT_BASE?.trim() || '/'
 export default defineConfig({
   title: brand.name,
   description: meta.description,
