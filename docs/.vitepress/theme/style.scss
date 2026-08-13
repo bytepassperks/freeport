@@ -1894,12 +1894,12 @@ body {
 }
 
 .VPHero .image-src {
-  width: min(100%, 52rem);
+  width: 100%;
+  max-width: 100%;
   max-height: none;
   filter: drop-shadow(0 1.5rem 1.25rem rgba(2, 14, 26, 0.3));
   object-fit: contain;
-  transform: translateY(-1.5rem) scale(1.16);
-  transform-origin: center bottom;
+  transform: none;
 }
 
 .VPHero .actions {
@@ -2205,9 +2205,9 @@ body {
   }
 
   .VPHero .image {
-    display: flex;
+    display: none;
     min-height: 0;
-    margin-top: var(--freeport-space-3);
+    margin-top: 0;
     padding-bottom: 0;
     justify-content: flex-start;
   }
@@ -2317,6 +2317,24 @@ body {
   width: auto;
   min-height: 2.25rem;
   padding-inline: 0.5rem;
+}
+
+.VPHero .image {
+  overflow: hidden;
+}
+
+.VPHero .image-src {
+  position: static;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 959px) {
+  .VPHero .image {
+    display: none;
+  }
 }
 
 .fp-button {
