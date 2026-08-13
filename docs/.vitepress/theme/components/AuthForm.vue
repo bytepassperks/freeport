@@ -101,7 +101,7 @@ async function submit() {
         </p>
       </div>
       <button
-        class="bg-primary rounded-lg px-4 py-2.5 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+        class="fp-button fp-button-primary disabled:cursor-not-allowed disabled:opacity-50"
         type="submit"
         :disabled="!canSubmit"
       >

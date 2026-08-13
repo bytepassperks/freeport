@@ -1493,7 +1493,7 @@ html.monolith {
 }
 
 .VPHero .actions {
-  margin-top: 1.25rem;
+  margin-top: var(--freeport-space-3);
 }
 
 .freeport-hero-search {
@@ -1861,24 +1861,28 @@ body {
 }
 
 .VPHero .heading {
-  max-width: 24rem;
+  max-width: 38rem;
 }
 
 .VPHero .name {
   max-width: none;
   color: var(--freeport-ink);
   font-family: 'Freeport Display', Georgia, serif !important;
-  font-size: clamp(3.35rem, 6vw, 5.8rem);
+  font-size: clamp(3.1rem, 5.2vw, 5.2rem);
   font-weight: 400;
   letter-spacing: -0.045em;
   line-height: 0.93;
+  text-wrap: balance;
 }
 
 .VPHero .tagline {
   max-width: 38rem;
+  margin-left: 0;
+  margin-right: 0;
   color: var(--freeport-muted);
   font-size: clamp(1.05rem, 1.55vw, 1.3rem);
   line-height: 1.45;
+  text-align: left;
 }
 
 .VPHero .image {
@@ -1897,7 +1901,8 @@ body {
 .VPHero .actions {
   align-items: center;
   gap: var(--freeport-space-4);
-  margin-top: var(--freeport-space-5);
+  margin-left: 0;
+  margin-top: var(--freeport-space-3);
 }
 
 .VPHero .actions .VPButton {
@@ -1946,7 +1951,7 @@ body {
 .freeport-directory {
   max-width: 78rem;
   margin: 0 auto var(--freeport-space-8);
-  padding: 0 2rem;
+  padding: 0;
 }
 
 .freeport-section-heading {
@@ -1969,7 +1974,7 @@ body {
 }
 
 .freeport-section-heading h2 {
-  max-width: 18ch;
+  max-width: 34ch;
   margin: var(--freeport-space-2) 0 0;
   color: var(--freeport-ink);
   font-family: 'Freeport Display', Georgia, serif;
@@ -2111,6 +2116,9 @@ body {
 
 .VPDoc h1 {
   font-size: clamp(2.6rem, 5vw, 4.2rem);
+  border-bottom: 0 !important;
+  padding-bottom: 0;
+  text-decoration: none !important;
 }
 
 .VPDoc h2 {
@@ -2170,6 +2178,7 @@ body {
   .VPHero {
     margin-bottom: var(--freeport-space-6);
     padding: var(--freeport-space-7) 1.25rem var(--freeport-space-6);
+    text-align: left;
   }
 
   .VPHero::after {
@@ -2178,6 +2187,7 @@ body {
 
   .VPHero .container {
     display: block;
+    text-align: left;
   }
 
   .VPHero .heading {
@@ -2186,7 +2196,8 @@ body {
 
   .VPHero .name {
     max-width: none;
-    font-size: clamp(2.85rem, 12vw, 4.4rem);
+    font-size: clamp(2.6rem, 11vw, 4rem);
+    text-align: left;
   }
 
   .VPHero .image {
@@ -2194,6 +2205,7 @@ body {
     min-height: 8rem;
     margin-top: var(--freeport-space-5);
     padding-bottom: 0;
+    justify-content: flex-start;
   }
 
   .VPHero .image-src {
@@ -2202,6 +2214,7 @@ body {
 
   .VPHero .actions {
     flex-wrap: wrap;
+    margin-top: var(--freeport-space-3);
   }
 
   .freeport-directory {
@@ -2258,6 +2271,105 @@ body {
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+:root:not(.dark) .VPHero::after {
+  display: none;
+}
+
+.fp-button {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--freeport-radius);
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.fp-button-primary {
+  border-color: var(--freeport-teal);
+  background: var(--freeport-teal);
+  color: #fff;
+  box-shadow: 0 0.35rem 0.8rem
+    color-mix(in srgb, var(--freeport-teal) 22%, transparent);
+}
+
+.fp-button-primary:hover {
+  border-color: var(--freeport-teal-dark);
+  background: var(--freeport-teal-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.fp-button-secondary {
+  border-color: var(--freeport-line);
+  background: var(--vp-c-bg);
+  color: var(--freeport-ink);
+}
+
+.fp-button-secondary:hover {
+  border-color: var(--freeport-teal);
+  background: color-mix(in srgb, var(--freeport-teal) 8%, var(--vp-c-bg));
+  color: var(--freeport-ink);
+}
+
+.fp-button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.feedback-heading-toggle {
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-left: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--freeport-teal) 35%, transparent);
+  border-radius: 0.3rem;
+  background: transparent;
+  color: var(--freeport-muted);
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
+
+.feedback-heading-toggle:hover {
+  border-color: var(--freeport-teal);
+  color: var(--freeport-teal);
+  opacity: 1;
+}
+
+.feedback-widget .btn {
+  border-radius: var(--freeport-radius);
+}
+
+.feedback-widget .btn-primary {
+  border-color: var(--freeport-teal);
+  background: var(--freeport-teal);
+  color: #fff;
+}
+
+.feedback-widget .btn-primary:hover {
+  border-color: var(--freeport-teal-dark);
+  background: var(--freeport-teal-dark);
+}
+
+.dark .fp-button-primary,
+.dark .feedback-widget .btn-primary {
+  color: #062426;
+}
+
+.dark .fp-button-secondary {
+  background: var(--vp-c-bg-alt);
 }
 
 .freeport-featured-card,

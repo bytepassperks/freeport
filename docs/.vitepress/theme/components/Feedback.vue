@@ -278,7 +278,7 @@ const resetFeedback = () => {
 <template>
   <template v-if="props.heading">
     <button
-      class="feedback-widget bg-$vp-c-default-soft text-primary border-$vp-c-default-soft hover:border-primary ml-3 inline-flex h-7 items-center justify-center whitespace-nowrap rounded-md border-2 border-solid px-1.5 py-3.5 text-sm font-medium transition-all duration-300 sm:h-6"
+      class="feedback-widget feedback-heading-toggle ml-3 inline-flex items-center justify-center whitespace-nowrap transition-all duration-300"
       @click="toggleCard()"
     >
       <span
@@ -314,10 +314,7 @@ const resetFeedback = () => {
             </div>
           </div>
           <div>
-            <button
-              class="bg-[#25262B] inline-block text-center rounded-full px-4 py-2.5 text-sm font-medium border-2 border-solid text-white border-$vp-c-divider"
-              @click="toggleCard()"
-            >
+            <button class="fp-button fp-button-secondary" @click="toggleCard()">
               Share Feedback
             </button>
           </div>
