@@ -2320,7 +2320,7 @@ body {
 }
 
 .VPHero .image {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .VPHero .image-src {
@@ -2332,8 +2332,18 @@ body {
 }
 
 @media (max-width: 959px) {
+  .freeport-directory {
+    padding-inline: 0;
+  }
+
   .VPHero .image {
     display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .VPHero .actions {
+    gap: var(--freeport-space-1);
   }
 }
 
